@@ -23,7 +23,7 @@ public class Solution {
         }
         // Find pivot
         int left = 0, right = nums.length -1;
-        while(left < right) {  // if use left <= right, case [1] would go into infinite loop (because right = mid)
+        while(left < right) {  // if use left <= right, case [1] would go into infinite loop (because of using right = mid)
             int mid = (left + right) / 2;  // left round -> must use left = mid + 1 to avoid infinite loop
             if(nums[mid] > nums[right]) left = mid + 1; // if use nums[mid] > or >= nums[left], case [1,2] fails.
             else right = mid;    // if use right = mid, would probably miss pivot, since we are using nums[right] to compare, not true pivot
