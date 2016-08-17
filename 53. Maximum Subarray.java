@@ -38,5 +38,45 @@ public class Solution {
 	
 	/*
 		Divide and Conquer
+		Each sub problem return:
+			(1) maxSoFar: Max sum
+			(2) leftMax: Max sum starting from left bound
+			(3) rightMax: Max sum starting from right bound
+			(4) currSum: Sum of current sub array
+		
+		Merge:
+			maxSoFar = max(left's maxSoFar, right's maxSoFar, left's rightMax + right's leftMax)
+			leftMax = max(left's leftMax, left's currSum + right's leftMax)
+			rightMax = max(right's rightMax, right's currSum + left's rightMax)
+			currSum = left's currSum + right's currSum
+			
+		Time complexity: T(n) = 2T(n/2) + O(1) = O(n)
+		Space complexity: At most logn call stacks at a time, so it is O(logn)
 	*/
+	private void search(int[] nums, int[] rslt, int left, int right) {
+		if (left == right) {
+			Arrays.fill(rslt, nums[left]);
+			return;
+		}
+
+		int mid = left + (right - left) / 2;
+		int[] leftRslt = new int[4];
+		search(nums, leftRslt, left, mid);
+		int[] rightRslt = new int[4];
+		search(nums, rightRslt, mid + 1, right);
+
+		rslt[0] = Math.max(Math.max(leftRslt[0], rightRslt[0]), leftRslt[2] + rightRslt[1]);
+		rslt[1] = Math.max(leftRslt[1], leftRslt[3] +  + rightRslt[1]);
+		rslt[2] = Math.max(rightRslt[2], rightRslt[3] +  + leftRslt[2]);
+		rslt[3] = leftRslt[3] + rightRslt[3];
+    }
+
+    public int maxSubArray(int[] nums) {
+		if (nums == null || nums.length == 0)
+		throw new IllegalArgumentException("null or empty input array");
+
+		int[] rslt = new int[4]; //maxSoFar, leftMax, rightMax, currSum
+		search(nums, rslt, 0, nums.length - 1);
+		return rslt[0];
+    }
 }
