@@ -67,7 +67,7 @@ public class Solution {
 		In order traverse iterative vesion.
 	*/
 	public boolean isValidBST (TreeNode root){
-        Stack<TreeNode> stack = new Stack<>();
+        Deque<TreeNode> stack = new ArrayDeque<>();
         TreeNode pre = null;
         while(root != null || !stack.isEmpty()) {
             while(root != null) {
