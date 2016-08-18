@@ -19,7 +19,7 @@ public class Solution {
 		Each time we keep a window of size windowLen (= wordLen * numWord), each step length is wordLen.
 		So each scan takes O(sLen / wordLen), totally takes O(sLen / wordLen * wordLen) = O(sLen) time.
 		
-		One trick here is use count to record the number of exceeded occurences of word in current window
+		One trick here is use count to record the number of exceeded occurrences of word in current window
 	*/
     public static List<Integer> findSubstring(String s, String[] words) {
         List<Integer> res = new ArrayList<>();
