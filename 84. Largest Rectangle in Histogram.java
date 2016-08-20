@@ -26,7 +26,7 @@ return 10.
 	How can we get left smaller bar and right smaller bar of each bar?
 	(1) Brute force way: Traverse all bars, and use linear search to find. O(n^2) time O(1) space
 	
-	(2) Use two arrays to record known left, right bars of each bar. When we search for next bar, we might use this result to skip some bars. However, in worst case like bars ordered by descending order, it is still O(n^2) and space O(n).
+	(2) Use two arrays to record known left, right bars of each bar. When we search for next bar, we might use this result to skip some bars. It is time O(n) and space O(n).
 	https://discuss.leetcode.com/topic/48127/java-o-n-left-right-arrays-solution-4ms-beats-96
 	
 	(3) Use a Stack to store indexes of all pending bars. What does 'pending' means here? It means we cannot find corresponding right bar for it. A valid corresponding right bar is defined as the first bar the smaller than this bar to the right.
