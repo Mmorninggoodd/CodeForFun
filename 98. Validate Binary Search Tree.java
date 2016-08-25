@@ -52,19 +52,15 @@ public class Solution {
 	*/
     TreeNode pre = null;
     public boolean isValidBST (TreeNode root){
-        return inOrder(root);
-    }
-    public boolean inOrder (TreeNode curNode){
         if(curNode == null) return true;
         if((!isValidBST(curNode.left)) || (pre != null && curNode.val <= pre.val))
            return false;
         pre = curNode;
         return isValidBST(curNode.right);
     }
-	
 	/*
 		4ms
-		In order traverse iterative vesion.
+		In order traverse iterative version.
 	*/
 	public boolean isValidBST (TreeNode root){
         Deque<TreeNode> stack = new ArrayDeque<>();
@@ -82,4 +78,25 @@ public class Solution {
         return true;
     }
 	
+	/*
+		version 2 in-order
+	*/
+	public boolean isValidBST (TreeNode root){
+        Deque<TreeNode> stack = new ArrayDeque<>();
+        pushLeft(stack, root);
+        TreeNode pre = null;
+        while(!stack.isEmpty()) {
+            root = stack.pop();
+            if(pre != null && pre.val >= root.val) return false;
+            pre = root;
+            pushLeft(stack, root.right);
+        }
+        return true;
+    }
+    private void pushLeft(Deque<TreeNode> stack, TreeNode root) {
+        while(root != null) {
+            stack.push(root);
+            root = root.left;
+        }
+    }
 }
