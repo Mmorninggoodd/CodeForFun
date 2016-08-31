@@ -22,7 +22,7 @@ For the purpose of this problem, assume that your function returns 0 when the re
 
 public class Solution {
 	/*
-		A simple way. Use long to avoid overflow.
+		A simple way. Use long to avoid overflow. (abs(Integer.MIN_VALUE) overflows)
 	
 	*/
     public int reverse(int x) {
@@ -34,6 +34,6 @@ public class Solution {
             x_l /= 10;
         }
         res = res * sign;
-        return res == (int) res ? (int) res : 0;
+        return res == (int) res ? (int) res : 0;  // detect whether overflow
     }
 }

@@ -24,6 +24,7 @@ Reduce them to a single space in the reversed string.
 public class Solution {
 	/*
 		version 1
+		Search word one by one from the end, and append words into string builder
 	*/
     public String reverseWords(String s) {
         StringBuilder sb = new StringBuilder();
@@ -39,6 +40,7 @@ public class Solution {
     }
 	/*
 		version 2: a bit faster
+		Use char array
 	*/
 	public String reverseWords(String s) {
         char[] charArray = s.toCharArray();
