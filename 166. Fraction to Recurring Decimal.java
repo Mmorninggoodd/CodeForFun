@@ -1,0 +1,43 @@
+/*
+
+Given two integers representing the numerator and denominator of a fraction, return the fraction in string format.
+
+If the fractional part is repeating, enclose the repeating part in parentheses.
+
+For example,
+
+Given numerator = 1, denominator = 2, return "0.5".
+Given numerator = 2, denominator = 1, return "2".
+Given numerator = 2, denominator = 3, return "0.(6)".
+Hint:
+
+No scary math, just apply elementary math knowledge. Still remember how to perform a long division?
+Try a long division on 4/9, the repeating part is obvious. Now try 4/333. Do you see a pattern?
+Be wary of edge cases! List out as many test cases as you can think of and test your code thoroughly.
+*/
+
+public class Solution {
+    public String fractionToDecimal(int numerator, int denominator) {
+        if(numerator == 0) return "0";
+        StringBuilder sb = new StringBuilder();
+        if( (numerator < 0) ^ (denominator < 0)) sb.append('-');
+        long lnum = Math.abs((long) numerator);
+        long lden = Math.abs((long) denominator);  // -2147483648 -> positive will overflow
+        sb.append(lnum / lden);
+        lnum = 10 * (lnum % lden);
+        if(lnum == 0) return sb.toString();
+        sb.append('.');
+        Map<Long, Integer> map = new HashMap<>();
+        while(lnum != 0){
+            if(map.containsKey(lnum)){
+                sb.insert( (int)map.get(lnum),'(');  // avoid error: reference to insert is ambiguous
+                sb.append(')');
+                break;
+            }
+            map.put(lnum, sb.length());
+            sb.append(lnum / lden);
+            lnum = 10 * (lnum % lden);
+        }
+        return sb.toString();
+    }
+}
