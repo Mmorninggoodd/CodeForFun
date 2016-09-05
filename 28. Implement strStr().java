@@ -2,6 +2,8 @@
 Implement strStr().
 
 Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+
+indexOf() search a needle in haystack.
 */
 
 public class Solution {
@@ -15,8 +17,11 @@ public class Solution {
         return -1;
     }
 	/*
-		Also there are KMP and Robin-Karp algorithms.
-		Not necessary to learn them to prepare interview.
+		KMP
+	*/
+	
+	/*
+		 Also there is Robin-Karp or Boyer-Moore algorithm algorithm
 	*/
 	
 }
