@@ -24,11 +24,14 @@ For example, the lowest common ancestor (LCA) of nodes 5 and 1 is 3. Another exa
  * }
  */
 public class Solution {
+	/*
+		DFS O(max depth) space O(n) time
+	*/
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if(root == null || root == p || root == q) return root;
         TreeNode left = lowestCommonAncestor(root.left, p, q);
         TreeNode right = lowestCommonAncestor(root.right, p, q);
-        if(left != null && right != null) return root;
-        return left != null ? left : right;
+        if(left != null && right != null) return root;  // both children found, then return root
+        return left != null ? left : right;  // return one of them
     }
 }
