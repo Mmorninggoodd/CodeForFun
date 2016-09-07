@@ -1,7 +1,7 @@
 /*
 
 Count the number of substrings divisible by k
-
+(Not necessary continuous substring)
 */
 
 /*
