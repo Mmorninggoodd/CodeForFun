@@ -37,9 +37,9 @@ public static int numContinuousSubstringDivisibleByK(String s, int k) {
 	int total = 0;
 	for(char c : s.toCharArray()) {
 		int[] tmp = new int[k];
-		tmp[(c - '0') % k]++;   // starting at i
+		tmp[(c - '0') % k]++;   // starting at i  (one difference)
 		for(int i = 0; i < k; i++) {   // starting before and at i - 1
-			//tmp[i] = count[i];    difference between non-continuous and continuous
+			//tmp[i] = count[i];    // another difference between non-continuous and continuous
 			tmp[(10 * i + c - '0') % k] += count[i];
 		}
 		count = tmp;
@@ -47,3 +47,23 @@ public static int numContinuousSubstringDivisibleByK(String s, int k) {
 	}
 	return total;
 }
+
+
+/*
+
+Here is a bruce force way
+Time O(n^2) Space O(1)
+*/
+
+public static int bruceForce(String s, int k) {
+	int total = 0;
+	for(int i = 0; i < s.length(); i++) {  // start index
+		int remainder = 0;
+		for(int j = i + 1; j <= s.length(); j++) {  // end index (exclusive)
+			remainder = (remainder * 10 + s.charAt(j-1) - '0') % k;  // avoid overflow
+			if(remainder == 0) total++;
+		}
+	}
+	return total;
+}
+

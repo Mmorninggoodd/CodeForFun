@@ -30,7 +30,7 @@ public static int numSubstringDivisibleByK(String s, int k) {
 	for(char c : s.toCharArray()) {
 		int[] tmp = new int[k];
 		for(int i = 0; i < k; i++) {
-			tmp[i] = count[i];
+			tmp[i] += count[i];
 			tmp[(10 * i + c - '0') % k] += count[i];
 		}
 		count = tmp;
