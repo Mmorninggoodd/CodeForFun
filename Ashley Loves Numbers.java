@@ -1,4 +1,4 @@
-/*
+/* Ashley Loves Numbers
 	Given lower and higher bound (inclusive), return count of all non-repeating digit numbers.
 	
 	For example,
@@ -54,7 +54,7 @@ public static int findLovelyNumber2(int lower, int higher, int cur, boolean[] us
 	For each call, take one digit from the least significant digit each time. And use dp array.
 	
 	For example, higher bound: 5012
-		1-4999 = 9 * (dp[0] + dp[1] + dp[2]) = 738
+		1-999 = 9 * (dp[0] + dp[1] + dp[2]) = 738
 		
 		1000-4999 = (5 - 1) * dp[3] = 2016
 		^
