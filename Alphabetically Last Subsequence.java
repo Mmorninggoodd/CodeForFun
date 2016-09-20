@@ -27,6 +27,7 @@ public static String minSubstring(String str, int k) {
 
 /*
 	ArrayList[26] indexes to record all indexes of all characters
+	Then iterate over this indexes to find candidates for each position.
 	
 	O(n) time O(n) space
 */

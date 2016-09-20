@@ -1,4 +1,4 @@
-/*
+/* Count of Smaller Numbers After Self
 
 You are given an integer array nums and you have to return a new counts array. The counts array has the property where counts[i] is the number of smaller elements to the right of nums[i].
 
@@ -17,6 +17,9 @@ Return the array [2, 1, 1, 0].
 
 /*
 	BST  O(nlgn) time O(n) space
+	
+	start from the end of the input array, iterate backwards to the start of the array. In each step, insert the current value into a binary search tree, and during insertion, calculate the count value of the current inserted value.
+	
 	https://discuss.leetcode.com/topic/31405/9ms-short-java-bst-solution-get-answer-when-building-bst
 */
 class TreeNode {
