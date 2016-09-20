@@ -48,7 +48,7 @@ the gap between the 5th and 6th stone is too large.
 	
 	Note, in order to save memory, we only store dp[i] if i has a stone. (Which can be achieved by using HashMap<Integer, HashSet<Integer>> to store (stone index, jump step lengths) pairs)
 	
-	Time O(number of stones) Space O(number of stones)
+	Time & Space exponential
 */
 public boolean canCross(int[] stones) {
 	if(stones == null || stones.length == 0) return false;
