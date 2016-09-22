@@ -38,7 +38,8 @@ public class Solution {
             }
             if(sb.length() != 0 || c != '0') sb.append(c);  // Only append when it is not leading zero
         }
-        if(k <= sb.length()) sb.setLength(sb.length() - k);  // use all remaining k
-        return sb.length() == 0 ? "0" : sb.toString();
+        if(k >= sb.length()) return "0";
+        sb.setLength(sb.length() - k);  // use all remaining k
+        return sb.toString();  
     }
 }

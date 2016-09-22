@@ -33,7 +33,7 @@ the gap between the 5th and 6th stone is too large.
 */
 
 
-/* 116 ms
+/* 56 ms
 	dp[i] store a list of all possible last jump step lengths
 	
 	for example, dp[i] = {1,3,5} means it is possible to jump to i using 1, 3, 5 jump step lengths from previous positions
@@ -46,28 +46,28 @@ the gap between the 5th and 6th stone is too large.
 	
 	If dp[n-1] has any elements, then it can be arrived
 	
-	Note, in order to save memory, we only store dp[i] if i has a stone. (Which can be achieved by using HashMap<Integer, HashSet<Integer>> to store (stone index, jump step lengths) pairs)
+	Note, in order to save memory, we only store dp[i] if i has a stone. (Which can be achieved by using HashMap<Integer, List<Integer>> to store (stone index, jump step lengths) pairs)
 	
 	Time & Space exponential
 */
 public boolean canCross(int[] stones) {
 	if(stones == null || stones.length == 0) return false;
-	if(stones.length == 1) return true;
 	int n = stones[stones.length - 1];
-	if(n > (stones.length * (stones.length + 1)) / 2) return false;
-	HashMap<Integer, HashSet<Integer>> dp = new HashMap<>();
-	for(int stone : stones) dp.put(stone, new HashSet<>());
-	if(!dp.containsKey(1)) return false;
+	if(stones[1] != 1 || n > (stones.length * (stones.length + 1)) / 2) return false;
+	HashMap<Integer, List<Integer>> dp = new HashMap<>();
+	for(int stone : stones) dp.put(stone, new ArrayList<>());
 	dp.get(1).add(1);
 	for(int i = 1; i < stones.length; i++) {
-		HashSet<Integer> set = dp.get(stones[i]);
-		if(set.isEmpty()) continue;
-		for(int step : set) {
-			for(int offset = -1; offset <= 1; offset++) {
+		List<Integer> list = dp.get(stones[i]);
+		if(list.isEmpty()) continue;
+		int lowestK = Integer.MAX_VALUE;
+		for(int step : list) {
+			for(int offset = 1; offset >= -1; offset--) {  // let ks stored in each stone in descending order
 				int nextIndex = stones[i] + step + offset;
-				if(step + offset <= 0 || !dp.containsKey(nextIndex)) continue;
+				if(step + offset <= 0 || step + offset >= lowestK || !dp.containsKey(nextIndex)) continue;
 				if(nextIndex == n) return true;
 				dp.get(nextIndex).add(step + offset);
+				lowestK = step + offset;
 			}
 		}
 	}
