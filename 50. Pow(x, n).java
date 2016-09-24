@@ -16,18 +16,14 @@ public class Solution {
 		n can be Integer.MIN_VALUE, 0, 1, Integer.MAX_VALUE
 		x can be any floating number, negtaive, 0, positive
 	*/
-    public double myPow(double x, int n) {
-        if(n < 0) {
-            x = 1 / x;
-            n = -n;
-        }
+	public double myPow(double x, int n) {
         double res = 1;
-        while(n != 0) {
-            if(n % 2 != 0) res *= x;		// Odd case
-            n /= 2;							// Will round out odd case
-            x *= x;							// Note that here multiple x, not res.
-            if(x == 1 || res == 0) break;  	// For speed up
+		int m = n;
+        while(m != 0) {
+            if((m & 1) == 1) res *= x;  // odd case
+			m /= 2;                     // Cannot use m >>= 1 in negative case ( (-1 >> 1) == -1)
+			x *= x;
         }
-        return res;
+        return n < 0 ? 1 / res : res;   // We don't n = abs(n), because MIN_VALUE = - MIN_VALUE
     }
 }

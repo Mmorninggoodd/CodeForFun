@@ -88,3 +88,49 @@ public static int totalLength(String s) {
 	}
 	return total;
 }
+
+/*
+	Another version of this problem:
+	No need to check if current folder is found before.
+	Return sum of lengths of path to image files (including image file names) instead. 
+*/
+
+public static int totalLength(String s) {
+	final int prime = 1000000007;
+	int total = 0, curLen = 0;
+	Deque<Integer> levels = new ArrayDeque<>();
+	String[] lines = s.split("\n");
+	for(String line : lines) {
+		int level = 0;
+		while(line.charAt(level) == ' ') level++;  // find current indents
+		while(level < levels.size()) {   // go to upper level, pop out (can be multiple levels)
+			curLen -= levels.pop();
+		}
+		levels.push(line.length() - level + 1);  // add length of "/curfilepath"
+		curLen += levels.peek();
+		if(line.contains(".jpeg") || line.contains(".png") || line.contains(".gif")) {
+			total = (total + curLen) % prime;
+		}
+	}
+	return total;
+}
+
+
+public int solution(String S) {
+	final int prime = 1000000007; // to avoid overflow
+	int curLength = 0, totalLength = 0;
+	Deque<Integer> levels = new ArrayDeque<>();
+	for(String line : S.split("\n")) {
+		int spaces = 0;
+		while(line.charAt(spaces) == ' ') spaces++;
+		while(spaces < levels.size()) {  // pop out all deeper or same levels
+			curLength -= levels.pop();
+		}
+		levels.push(1 + line.length() - spaces);  // add length like "/dir1"
+		curLength = (curLength + levels.peek() + prime) % prime;  // might be negative
+		if(line.contains(".jpeg") || line.contains(".png") || line.contains(".gif")) {
+			totalLength = (totalLength + curLength) % prime;
+		}
+	}
+	return totalLength;
+}
