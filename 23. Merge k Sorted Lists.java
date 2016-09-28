@@ -19,21 +19,15 @@ public class Solution {
 	*/
     public ListNode mergeKLists(ListNode[] lists) {
         if(lists == null || lists.length == 0) return null;
-        ListNode fakeHead = new ListNode(0), cur = fakeHead;
-        PriorityQueue<ListNode> heap = new PriorityQueue<ListNode>(lists.length, new Comparator<ListNode>(){
-            @Override
-            public int compare(ListNode n1, ListNode n2){
-                return Integer.compare(n1.val, n2.val);
-            }});
-        for(ListNode n : lists) {
-            if(n != null) heap.offer(n);
-        }
-        while(!heap.isEmpty()) {
-            cur.next = heap.poll();
+        PriorityQueue<ListNode> pq = new PriorityQueue<>((o1, o2) -> Integer.compare(o1.val, o2.val));
+        for(ListNode list : lists) if(list != null) pq.offer(list);
+        ListNode fake = new ListNode(0), cur = fake;
+        while(!pq.isEmpty()) {
+            cur.next = pq.poll();
             cur = cur.next;
-            if(cur.next != null) heap.offer(cur.next);
+            if(cur.next != null) pq.offer(cur.next);
         }
-        return fakeHead.next;
+        return fake.next;
     }
 	
 	/*
