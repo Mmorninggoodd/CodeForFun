@@ -1,5 +1,5 @@
 /*
-	Given an array, you add * or + and (, ) among them such that the result is maximized.
+	Given an non-negative array, you add * or + and (, ) among them such that the result is maximized.
 
 */
 
@@ -25,4 +25,31 @@ public static int maxMultipleOrPlus(int[] array) {
 		}
 	}
 	return dp[array.length];
+}
+
+/*
+	DP version 2
+	
+	dp[i,j] = max value can be obtained from array[i:j]
+	
+	dp[i,j] = max(dp[i,k] + dp[k + 1, j], dp[i, k] * dp[k + 1, j]) for i <= k < j
+	
+	Time O(n^2) Space O(n^2)
+*/
+public static int maxMultipleOrPlus2(int[] array) {
+	if(array == null || array.length == 0) return 0;
+	HashMap<Integer, Integer> map = new HashMap<>();
+	return maxMultipleOrPlus2(array, 0, array.length - 1, map);
+}
+public static int maxMultipleOrPlus2(int[] array, int i, int j, HashMap<Integer, Integer> map) {
+	int key = i + j * array.length;
+	if(map.containsKey(key)) return map.get(key);
+	if(i == j) return array[i];
+	int max = 0;
+	for(int k = i; k < j; k++) {
+		int left = maxMultipleOrPlus2(array, i, k, map), right = maxMultipleOrPlus2(array, k + 1, j, map);
+		max = Math.max(max, Math.max(left * right, left + right));
+	}
+	map.put(key, max);
+	return max;
 }
