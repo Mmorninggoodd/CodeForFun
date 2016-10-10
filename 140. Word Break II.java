@@ -13,9 +13,35 @@ A solution is ["cats and dog", "cat sand dog"].
 */
 
 public class Solution {
+	
+	/*TLE
+		Backtracking
+	*/
+	public List<String> wordBreak(String s, Set<String> wordDict) {
+        List<String> res = new ArrayList<>();
+        wordBreak(s, wordDict, 0, new StringBuilder(), res);
+        return res;
+    }
+    private void wordBreak(String s, Set<String> wordDict, int start, StringBuilder sb, List<String> res) {
+        if(start == s.length()) {
+            res.add(sb.toString().trim());
+            return;
+        }
+        int sbLen = sb.length();
+        for(int end = start + 1; end <= s.length(); end++) {
+            String word = s.substring(start, end);
+            if(wordDict.contains(word)) {
+                sb.append(" ").append(word);
+                wordBreak(s, wordDict, end, sb, res);
+                sb.setLength(sbLen);
+            }
+        }
+    }
+	
+	
 	/* 3ms 99.91%
 		Backtracking. Use a boolean array to prune branches.
-		invalid[i]: s[i:end] can be breakable
+		invalid[i]: s[i:end] can not be breakable
 		
 		Also record max length of all words to prune branches.
 	*/
@@ -35,7 +61,7 @@ public class Solution {
         int sbLen = sb.length();  // record current size
         int rightBound = Math.min(s.length(), start + maxLen);
         for (int end = start + 1; end <= rightBound; end++) {   // exclusive
-            if (end != s.length() && invalid[end]) continue;    // check if s[right:end] is breakable
+            if (end != s.length() && invalid[end]) continue;    // check if s[end:] is unbreakable
             String word = s.substring(start, end);
             if (wordDict.contains(word)) {
                 sb.append(" "); sb.append(word);

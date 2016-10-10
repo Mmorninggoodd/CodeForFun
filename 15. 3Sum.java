@@ -37,4 +37,30 @@ public class Solution {
         }
         return res;
     }
+	
+	/*
+		Follow up:
+		Only find one triple, but only return the triple that the last number's index is the smallest among all valid solutions.
+		
+		For example, [2,4,5,6,2,5,3,1], 10
+		return [2,6,2]  but [5, 5] or other solutions
+		
+		Cannot sort here. Then just use HashMap.
+		We can put numbers into map while we traverse.
+		find triple [i,j,k]
+	*/
+	public static List<Integer> threeSum(int[] nums, int target) {
+		Map<Integer, Integer> counts = new HashMap<>();
+		for(int k = 1; k < nums.length; k++) {  // traverse from left to right
+			counts.put(nums[k], counts.getOrDefault(nums[k], 0) + 1);
+			for(int i = 0; i < k - 1; i++) {
+				int newTarget = target - nums[i] - nums[k];
+				int count = counts.getOrDefault(newTarget, 0);
+				if((newTarget == nums[i] && count >= 2) || (newTarget != nums[i] && count > 0)) {
+					return Arrays.asList(nums[i], newTarget, nums[k]);
+				}
+			}
+		}
+		return new ArrayList<>();
+	}
 }
