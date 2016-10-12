@@ -14,13 +14,13 @@ public class Solution {
 		Short version
 	
 	*/
-	public int mySqrt(int x) {
+    public int mySqrt(int x) {
         if(x <= 1) return x;
-        int left = 1, right = x/2;
-        while(left < right){
-            int mid = left + (1 + right - left)/2;
-            if(x/mid >= mid) left = mid; // mid*mid <= x 
-            else right = mid - 1;
+        int left = 1, right = x / 2;
+        while(left < right) {
+            int mid = (left + right + 1) >>> 1;
+            if(mid > x / mid) right = mid - 1;  // mid * mid > x
+            else left = mid;
         }
         return left;
     }

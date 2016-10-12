@@ -10,7 +10,7 @@ But since the first stone will never be used, and the second stone doesn't exist
 So actually, we only maintain index window [2] (-> value [0]).
 
 Then we can move the window by 1, and look at index 3 (-> value 2)
-Although value 2 is larger than value 0 which is the only value in current window, we still need to add it into our window. Because we cannot gurantee that index 3 (value 2) will be never used when index 2 (value 0) is polled out latter.
+Although value 2 is larger than value 0 which is the only value in current window, we still need to add it into our window. Because we cannot guarantee that index 3 (value 2) will be never used when index 2 (value 0) is polled out latter.
 
 So current window will become [2, 3] (-> value [0, 2])
 
@@ -33,12 +33,12 @@ class Solution {
         Deque<Integer> q = new ArrayDeque<>();
         int res = -1;
         for(int i = 0; i < A.length; i++) {
-            if(!q.isEmpty() && q.peekFirst() <= i - D) q.pollFirst();
+            if(!q.isEmpty() && q.peekFirst() <= i - D) q.pollFirst();   // poll out index out of window
             if(!q.isEmpty() && A[i] != -1 && A[q.peekFirst()] > A[i]) q.clear();
-            while(!q.isEmpty() && A[i] != -1 && A[q.peekLast()] > A[i]) q.pollLast();
-            if(A[i] != -1) q.offer(i);
-            if(i >= D - 1 && q.isEmpty()) return -1;
-            if(i >= D - 1 && res < A[q.peek()]) res = A[q.peek()]; 
+            while(!q.isEmpty() && A[i] != -1 && A[q.peekLast()] > A[i]) q.pollLast();  // two lines above poll out values that are larger than new value
+            if(A[i] != -1) q.offer(i);  					// offer new value
+            if(i >= D - 1 && q.isEmpty()) return -1;   		// empty means no way to pass
+            if(i >= D - 1 && res < A[q.peek()]) res = A[q.peek()];   // get max(min of window)
         }
         return res;
     }

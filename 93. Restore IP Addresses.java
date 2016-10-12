@@ -9,6 +9,33 @@ return ["255.255.11.135", "255.255.111.35"]. (Order does not matter)
 */
 
 public class Solution {
+	
+	/* 3ms 88%
+		DFS more cleaner.
+	*/
+	public static List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        restoreIpAddresses(s, 0, res, new StringBuilder(), 0);
+        return res;
+    }
+    private static void restoreIpAddresses(String s, int start, List<String> res, StringBuilder path, int k) {
+        if(k == 4) {
+            if(start == s.length()) res.add(path.toString());
+            return;
+        }
+        int len = path.length();
+        int maxIndex = (start < s.length() && s.charAt(start) == '0') ? start + 1: start + 3;
+        for(int end = start + 1; end <= maxIndex && end <= s.length(); end++) {
+            String sub = s.substring(start, end);
+            if(Integer.parseInt(sub) > 255) continue;
+            path.append(sub);
+            if(k != 3) path.append('.');
+            restoreIpAddresses(s, end, res, path, k + 1);
+            path.setLength(len);
+        }
+    }
+	
+	
 	/* 3ms 88%
 		Just three loops
 	

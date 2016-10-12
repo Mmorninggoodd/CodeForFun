@@ -23,9 +23,10 @@
 public static List<List<Integer>> amicableNumbers(int upper) {
 	List<List<Integer>> pairs = new ArrayList<>();
 	for(int i = 200; i <= upper; i++) {
-		int sum1 = sumOfDivisors(i), sum2 = sumOfDivisors(sum1);
-		if(sum1 <= upper && i < sum1 && sum2 == i) {  // i < sum1 to avoid duplicates
-			pairs.add(Arrays.asList(i, sum1));
+		int sum1 = sumOfDivisors(i);
+		if(sum1 <= upper && i < sum1) {  // i < sum1 to avoid duplicates
+			int sum2 = sumOfDivisors(sum1);
+			if(sum2 == i) pairs.add(Arrays.asList(i, sum1));
 		}
 	}
 	return pairs;
@@ -42,3 +43,31 @@ private static int sumOfDivisors(int num) {  // n^0.5 to get sum
 }
 
 
+/*
+	Method 2: First generate sums of numbers in [1:n] in O(nlgn)
+			  Then find any valid pairs in O(n)
+			  
+	How to generate sums:
+		1. First add 1 to each cell (except 1)  takes time O(n)
+		2. Then add 2 to 2*k cells (except 2)   takes time O(n/2)
+		3. Then add 3 to 3*k cells (except 3)   takes time O(n/3)
+		Until n/2  takes time O(1)
+    So overall time complexity is O(n + n/2 + n/3 + n/4 + ... + 1) = O(n * (1 + 1/2 + 1/3 + ... + 1/n) = O(nlgn)
+    Space O(n)
+
+*/
+public static List<List<Integer>> amicableNumbers(int upper) {
+	int[] dp = new int[upper + 1];
+	for(int i = 1; i <= upper / 2; i++) {
+		for(int j = 2; i * j <= upper; j++) {
+			dp[i * j] += i;
+		}
+	}
+	List<List<Integer>> pairs = new ArrayList<>();
+	for(int i = 1; i <= upper; i++) {
+		if(dp[i] <= upper && dp[dp[i]] == i && i < dp[i]) {
+			pairs.add(Arrays.asList(i, dp[i]));
+		}
+	}
+	return pairs;
+}

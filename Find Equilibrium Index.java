@@ -67,4 +67,19 @@ class Solution {
         }
         return -1;
     }
+	
+	/*
+		Improvement space O(1)
+		
+	*/
+	public static int solution(int[] A) {
+        int preSum = 0, postSum = 0;
+        for (int aA : A) postSum += aA;
+        for(int i = 0; i < A.length; i++) {
+            if(preSum == postSum) return i - 1;
+            if(i > 0) preSum += A[i - 1];
+            postSum -= A[i];
+        }
+        return -1;
+    }
 }
