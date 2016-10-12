@@ -1,3 +1,3 @@
-# LeetCode Sample Code
+# Code For Fun
 
-Just some codes written by me to practice algorithm coding problems.
+Just some codes written by me to practice algorithm problems.
