@@ -5,6 +5,8 @@
 	Use Memorization to reduce duplicate calculations.
 	
 	Can handle disconnected components.
+	
+	Cannot handle cycles in graph.
 */
 
 public static List<Integer> longestContiguousSequence(List<List<Integer>> pairs) {
