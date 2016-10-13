@@ -53,4 +53,28 @@ public class Solution {
         }
         return len == Integer.MAX_VALUE ? "" : s.substring(start, start + len);
     }
+	
+	/*
+		Count array version
+	
+	*/
+	public static String minWindow(String s, String t) {
+        if(t == null || t.length() == 0 || s == null || s.length() == 0) return "";
+        int[] counts = new int[256], curCounts = new int[256];
+        int minLen = Integer.MAX_VALUE, leftBound = -1, curCount = t.length(), optStart = -1;
+        for(char c : t.toCharArray()) counts[c]++;
+        for(int i = 0; i < s.length(); i++) {
+            int curIndex = s.charAt(i);
+            if(curCounts[curIndex]++ < counts[curIndex] && counts[curIndex] > 0) curCount--;  // push new char
+            while(leftBound + 1 <= i && curCounts[s.charAt(leftBound + 1)] > counts[s.charAt(leftBound + 1)]) { // right shift left bound
+                curCounts[s.charAt(leftBound + 1)]--;
+                leftBound++;
+            }
+            if(curCount == 0 && minLen > i - leftBound) {
+                minLen = i - leftBound; // leftBound is exclusively, i is inclusively
+                optStart = leftBound + 1;
+            }
+        }
+        return optStart == -1 ? "" : s.substring(optStart, minLen);
+    }
 }

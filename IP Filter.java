@@ -7,6 +7,18 @@
 */
 
 /*
+	If the number of rules is not many, then we can define a rule class, convert ip to an int.
+	
+	Example, 7.0.0.0/8 -> 
+		ruleIP = 7<<24 + 0<<16 + 0<<8 + 0
+		bitShift = (32 - 8)
+	Then return ruleIP >> bitShift == val2 >> bitShift
+
+	But if we need to check isValid a lot of times, then it need to compare all rules each time.
+*/
+
+
+/*
 	If there are a lot of rules, then we can use trie tree.
 	
 	Follow up: implement remove rule.

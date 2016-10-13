@@ -38,8 +38,7 @@ public class Solution {
     public int calculate(String s) {
 		if(s == null) return 0;
         Deque<Integer> operators = new ArrayDeque<>();
-		int res = 0, curNum = 0;
-		int sign = 1;
+		int res = 0, curNum = 0, sign = 1;
         operators.push(sign);
         for(int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);

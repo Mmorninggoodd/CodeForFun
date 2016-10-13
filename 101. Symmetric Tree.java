@@ -44,28 +44,24 @@ public class Solution {
     }
 	
 	/*
-		In-order iteratively
+		Pre-order iteratively
+		
+		Using Stack can hold null while Deque cannot.
 	*/
 	public boolean isSymmetric(TreeNode root) {
-        if(root == null) return true;
-        Deque<TreeNode> leftStack = new ArrayDeque<>();
-        Deque<TreeNode> rightStack = new ArrayDeque<>();
-        push(leftStack, root.left, true);
-        push(rightStack, root.right, false);
-        while(!leftStack.isEmpty() && !rightStack.isEmpty()) {
-            TreeNode left = leftStack.pop();
-            TreeNode right = rightStack.pop();
-            if(left.val != right.val || leftStack.size() != rightStack.size()) return false;
-            push(leftStack, left.right, true);
-            push(rightStack, right.left, false);
-        }
-        return leftStack.isEmpty() && rightStack.isEmpty();
-    }
-    private void push(Deque<TreeNode> stack, TreeNode root, boolean left) {
-        while(root != null) {
-            stack.push(root);
-            if(left) root = root.left;
-            else root = root.right;
-        }
-    }
+		if (root == null) return true;
+		Stack<TreeNode> stack = new Stack<>();
+		stack.push(root.left);
+		stack.push(root.right);
+		while (!stack.empty()) {
+			TreeNode n1 = stack.pop(), n2 = stack.pop();
+			if (n1 == null && n2 == null) continue;
+			if (n1 == null || n2 == null || n1.val != n2.val) return false;
+			stack.push(n1.left);
+			stack.push(n2.right);
+			stack.push(n1.right);
+			stack.push(n2.left);
+		}
+		return true;
+	}
 }
