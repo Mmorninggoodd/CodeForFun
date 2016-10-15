@@ -21,25 +21,21 @@ minStack.getMin();   --> Returns -2.
 public class MinStack {
 	/*
 		Use two stacks. One record numbers, another record current min.
+		Only push or pop when necessary.
 	
 	*/
-    private Deque<Integer> minStack;
-    private Deque<Integer> stack;
+    private Deque<Integer> stack = new ArrayDeque<>(), minStack = new ArrayDeque<>();
     /** initialize your data structure here. */
-    public MinStack() {
-        this.minStack = new ArrayDeque<>();
-        this.stack = new ArrayDeque<>();
-    }
+    public MinStack() {}
     
     public void push(int x) {
         stack.push(x);
-        if(minStack.isEmpty()) minStack.push(x);
-        else minStack.push(Math.min(x, minStack.peek()));
+        if(minStack.isEmpty() || minStack.peek() >= x) minStack.push(x);  // only push when minimum is updated
     }
     
     public void pop() {
-        stack.pop();
-        minStack.pop();
+        int val = stack.pop();
+        if(val == minStack.peek()) minStack.pop();  // only pop out when val == current min
     }
     
     public int top() {
