@@ -53,7 +53,7 @@ public class Solution {
         char c = board[i][j];
         TrieNode child = node.children[c - 'a'];
         if(child == null) return;
-        if(child.word != null) { // find word
+        if(child.word != null) { // check child! find word
             res.add(child.word);
             child.word = null;   // remove this word
         }   // not to return here, because you might miss other words that has same prefix
