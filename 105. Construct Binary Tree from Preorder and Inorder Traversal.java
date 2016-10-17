@@ -17,20 +17,19 @@ You may assume that duplicates do not exist in the tree.
  * }
  */
 public class Solution {
-	/* 95%
+	/* 98% 2ms
 		Recursively
 	*/
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        return buildTree(preorder, inorder, 0, 0, preorder.length - 1);
+        return buildTree(preorder, inorder, 0, preorder.length - 1, 0);
     }
-    private TreeNode buildTree(int[] preorder, int[] inorder, int preIndex, int inStart, int inEnd) {
+    private TreeNode buildTree(int[] preorder, int[] inorder, int inStart, int inEnd, int preStart) {
         if(inStart > inEnd) return null;
-        TreeNode root = new TreeNode(preorder[preIndex]);
-        if(inStart == inEnd) return root;
-        int index = inEnd;
-        while(inorder[index] != root.val) index--; // search root index in inorder array
-        root.left = buildTree(preorder, inorder, preIndex + 1, inStart, index - 1);
-        root.right = buildTree(preorder, inorder, preIndex + index - inStart + 1, index + 1, inEnd); // Becareful indexes here
-        return root;
+        int inMid = inEnd;
+        while(inorder[inMid] != preorder[preStart]) inMid--;
+        TreeNode node = new TreeNode(preorder[preStart]);
+        node.left = buildTree(preorder, inorder, inStart, inMid - 1, preStart + 1);
+        node.right = buildTree(preorder, inorder, inMid + 1, inEnd, preStart + (inMid - inStart + 1));
+        return node;
     }
 }
