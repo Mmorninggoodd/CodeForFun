@@ -79,7 +79,7 @@ public static double maxMultipleOrPlus2(double[] array, int i, int j, HashMap<In
 }
 
 /*
-	What if there exists negative numbers.
+	Follow up: What if there exists negative numbers.
 	Maintain max and min together.
 	
 	min[i][j] = min(min[i][k] + min[k+1][j], min[i][k] * max[k+1][j], max[i][k] * min[k+1][j])
@@ -103,4 +103,9 @@ public static double maxMultipleOrPlus2(double[] array) {
 	}
 	return max[0][n-1];
 }
+
+/*
+	Follow up: Back trace to get the String expression of maximum.
+
+*/
 

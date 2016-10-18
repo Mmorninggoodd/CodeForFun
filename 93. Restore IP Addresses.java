@@ -19,13 +19,13 @@ public class Solution {
         return res;
     }
     private static void restoreIpAddresses(String s, int start, List<String> res, StringBuilder path, int k) {
-        if(k == 4) {
-            if(start == s.length()) res.add(path.toString());
+        if(start >= s.length()) {
+            if(k == 4) res.add(path.toString());
             return;
         }
         int len = path.length();
-        int maxIndex = (start < s.length() && s.charAt(start) == '0') ? start + 1: start + 3;
-        for(int end = start + 1; end <= maxIndex && end <= s.length(); end++) {
+        int maxIndex = (s.charAt(start) == '0') ? start + 1: start + 3;
+        for(int end = start + 1; end <= maxIndex && end <= s.length(); end++) {  // exclusive
             String sub = s.substring(start, end);
             if(Integer.parseInt(sub) > 255) continue;
             path.append(sub);

@@ -26,10 +26,12 @@ static class ChainSnap {
 		return hasCycle(this, new HashSet<>(), new HashSet<>());
 	}
 	static boolean hasCycle(ChainSnap node, Set<ChainSnap> visited, Set<ChainSnap> path) {
+		if(path.contains(node)) return true;
+		if(visited.contains(recipient)) return false;
 		visited.add(node);
 		path.add(node);
 		for(ChainSnap recipient : node.recipients) {
-			if(path.contains(recipient) || (!visited.contains(recipient) && hasCycle(recipient, visited, path))) return true;
+			if(hasCycle(recipient, visited, path) return true;
 		}
 		path.remove(node);
 		return false;

@@ -27,7 +27,7 @@ There may be multiple valid order of letters, return any one of them is fine.
 
 /*
 	First iterate the words to get edges (c1 -> c2)
-	Then use topological sort BFS to get the result.
+	Then use topological sort BFS/DFS to get the result.
 	
 	O(n*len(word)) Time O(number of distinct char) Space
 */

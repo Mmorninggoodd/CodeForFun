@@ -35,8 +35,29 @@ But the second continuation byte does not start with 10, so it is invalid.
 
 */
 
+/*
+	A simple implementation.
+
+*/
+public boolean validUtf8(int[] data) {
+	int nByte = 0;
+	for(int cur : data) {
+		if(nByte == 0) {
+			if((cur >>> 7) == 0) nByte = 0;
+			else if((cur >>> 3) == 0b11110) nByte = 3;
+			else if((cur >>> 4) == 0b1110) nByte = 2;
+			else if((cur >>> 5) == 0b110) nByte = 1;
+			else return false;
+		}
+		else if((cur >>> 6) == 0b10) nByte--;
+		else return false;
+	}
+	return nByte == 0;
+}
+	
+	
 public class Solution {
-    int[] masks = new int[]{128, 192, 224, 240, 248};  // 10000000, 11000000, 11100000, 111100000, 11111000
+    int[] masks = new int[]{128, 192, 224, 240, 248};  // 0b10000000, 0b11000000, 0b11100000, 0b111100000, 0b11111000
     public boolean validUtf8(int[] data) {
         for(int i = 0; i < data.length;) {
             int nByte = 0;

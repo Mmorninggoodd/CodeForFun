@@ -71,8 +71,8 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
 }
 
 
-/*
-	2. DFS:  (Much slower)
+/* 5ms 98.5%
+	2. DFS:
 	For each course, we go along its children and find if there is any cycle in any branch.
 	
 	For example:
@@ -82,30 +82,34 @@ public boolean canFinish(int numCourses, int[][] prerequisites) {
 
 	Here 1,2,3 is a branch in which 4 is not belonged to it. So actually starting from 1, we will visit 3 twice from two branches respectively, but there is no cycle here. However, if we visit one node twice in one branch, then there must have cycle.
 	
-	DFS is much slower such that sometimes it is TLE.
-	The reason is that it usually need to revisit nodes that actually explored by dfs before. For example, the node 3's children above will visited twice in this dfs. 
+	We should use two visited set, one for global, one for current path.
+	If we visit same node twice in current path, then there exists cycle.
+	If we visit same node in global one, then we don't need to visit it again.
 	
 */
 public boolean canFinish(int numCourses, int[][] prerequisites) {
-	boolean[] visited = new boolean[numCourses];
+	boolean[] visited = new boolean[numCourses], path = new boolean[numCourses];
 	List<Integer>[] nextCourses = new ArrayList[numCourses];
-	for (int[] prerequisite : prerequisites) {   // transform list of edges to map
-		if (nextCourses[prerequisite[1]] == null) nextCourses[prerequisite[1]] = new ArrayList<>();
-		nextCourses[prerequisite[1]].add(prerequisite[0]);
+	for (int[] pre : prerequisites) {   // transform list of edges to map
+		if (nextCourses[pre[1]] == null) nextCourses[pre[1]] = new ArrayList<>();
+		nextCourses[pre[1]].add(pre[0]);
 	}
 	for(int i = 0; i < numCourses; i++) {
-		if(hasCycle(nextCourses, visited, i)) return false;
+		if(hasCycle(nextCourses, visited, path, i)) return false;
 	}
 	return true;
 }
-private boolean hasCycle(List<Integer>[] nextCourses, boolean[] visited, int course) {
-	if(visited[course]) return true;               // visited before by this dfs
-	if(nextCourses[course] == null) return false; // until the end
+private boolean hasCycle(List<Integer>[] nextCourses, boolean[] visited, boolean[] path, int course) {
+	if(path[course]) return true;               // visited before by this dfs
+	if(visited[course] || nextCourses[course] == null) return false; // until the end or visited before
 	visited[course] = true;
-	List<Integer> children = nextCourses[course];
-	for(int child : children) {
-		if(hasCycle(nextCourses, visited, child)) return true;
+	path[course] = true;
+	for(int child : nextCourses[course]) {
+		if(hasCycle(nextCourses, visited, path, child)) {
+			path[course] = false;
+			return true;
+		}
 	}
-	visited[course] = false;
+	path[course] = false;
 	return false;
 }

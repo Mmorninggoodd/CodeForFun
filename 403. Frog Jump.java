@@ -36,20 +36,22 @@ the gap between the 5th and 6th stone is too large.
 	Another easier way, but slower.
 */
 public boolean canCross(int[] stones) {
-	if(stones == null || stones.length == 0) return false;
 	HashMap<Integer, HashSet<Integer>> steps = new HashMap<>();
 	for(int stone : stones) {
 		steps.put(stone, new HashSet<>());
 	}
-	steps.get(0).add(0);
+	steps.get(0).add(1);
 	int lastStone = stones[stones.length - 1];
 	for(int stone : stones) {
 		HashSet<Integer> curSteps = steps.get(stone);
 		for(int step : curSteps) {
-			if(stone + step - 1 <= lastStone && lastStone <= stone + step + 1) return true;
-			if(step - 1 > 0 && steps.containsKey(stone + step - 1)) steps.get(stone + step - 1).add(step - 1);
-			if(step > 0 && steps.containsKey(stone + step)) steps.get(stone + step).add(step);
-			if(steps.containsKey(stone + step + 1)) steps.get(stone + step + 1).add(step + 1);
+			if(stone + step == lastStone) return true;
+			HashSet<Integer> nextSteps = steps.get(stone + step);
+			if(nextSteps != null) {
+				if(step > 1) nextSteps.add(step - 1);
+				nextSteps.add(step);
+				nextSteps.add(step + 1);
+			}
 		}
 	}
 	return false;

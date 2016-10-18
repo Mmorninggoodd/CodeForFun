@@ -10,22 +10,15 @@ Minimize the total number of operations.
 */
 
 public class Solution {
-	/*
-		left points to first zero
-		right iterate the array, if meet non-zero then swap with left.
-		
-		Note that make sure right >= left
-	*/
+	
     public void moveZeroes(int[] nums) {
-        int left = 0, right = 0;
-        while(right < nums.length) {
-            if(right < left) right = left;
-            else if(nums[left] != 0) left++;
-            else if(nums[right] != 0) {
-                nums[left++] = nums[right];
-                nums[right++] = 0;
+        int insertIndex = 0;
+        for(int i = 0; i < nums.length; i++) {
+            if(nums[i] != 0) {
+                int tmp = nums[i];
+                nums[i] = nums[insertIndex];
+                nums[insertIndex++] = tmp;
             }
-            else right++;
         }
     }
 	
