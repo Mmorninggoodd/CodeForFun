@@ -36,23 +36,38 @@ class Interval{
 		this.weight = weight;
 	}
 }
-public static int weightedMeeting(Interval[] meetings) {
+public static List<Interval> weightedMeeting(Interval[] meetings) {
 	Arrays.sort(meetings, (o1, o2) -> Integer.compare(o1.end, o2.end));  // sort by end time
-	int[] maxWeights = new int[meetings.length];
+	int[] maxWeight = new int[meetings.length];
+	int[] prev = new int[meetings.length];
 	for(int i = 0; i < meetings.length; i++) {
-		int j = binarySearch(meetings, i, meetings[i].start);  // find j
-		maxWeights[i] = Math.max((j == -1 ? 0 : maxWeights[j]) + meetings[i].weight,
-				i == 0 ? 0 : maxWeights[i - 1]);
+		prev[i] = findPrev(meetings, meetings[i].start, i - 1);
+		maxWeight[i] = Math.max(meetings[i].weight + (prev[i] == -1 ? 0 : maxWeight[prev[i]]), i == 0 ? 0 : maxWeight[i - 1]);
+		if(maxWeight[i] == (i == 0 ? 0 : maxWeight[i - 1])) {  // not chosen current meeting
+			prev[i] = i;
+		}
 	}
-	return maxWeights[maxWeights.length - 1];
+	List<Interval> res = new ArrayList<>();
+	backtrace(meetings, res, maxWeight, prev, meetings.length - 1);
+	return res;
 }
-private static int binarySearch(Interval[] meetings, int right, int time) {
+private static int findPrev(Interval[] meetings, int target, int right) {
 	int left = 0;
 	while(left < right) {
 		int mid = (left + right + 1) >>> 1;
-		if(meetings[mid].end > time) right = mid - 1;
+		if(meetings[mid].end > target) right = mid - 1;
 		else left = mid;
 	}
-	if(meetings[left].end > time) return -1;
+	if(meetings[left].end > target) return -1;
 	return left;
+}
+private static void backtrace(Interval[] meetings, List<Interval> res, int[] maxWeight, int[] prev, int index) {
+	if(index < 0) return;
+	if(prev[index] != index) {  // chosen current meeting
+		res.add(0, meetings[index]);
+		backtrace(meetings, res, maxWeight, prev, prev[index]);
+	}
+	else {  // not chosen current meeting
+		backtrace(meetings, res, maxWeight, prev, index - 1);
+	}
 }

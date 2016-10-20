@@ -97,3 +97,93 @@ public class BigInt {
         b1.add(b2);
     }
 }
+
+
+
+/*
+	Version 2:
+	Use string representation
+*/
+class BigInt {
+    private String str;
+    private boolean isNegative;
+    public BigInt(String str) { // big endian
+        this.isNegative = str.charAt(0) == '-';
+        if(this.isNegative) str = str.substring(1);
+        this.str = str;
+    }
+    private BigInt(String str, boolean isNegative) {
+        this.str = str;
+        this.isNegative = isNegative;
+    }
+    public static BigInt add(BigInt num1, BigInt num2) {
+        if(num1.isNegative ^ num2.isNegative) {   // different sign
+            int cmp = absCompare(num1, num2);
+            if(cmp == 0) return new BigInt("0", false);
+            if(cmp < 0) {   // swap two numbers such that absolute value of num1 > num2
+                BigInt tmp = num1;
+                num1 = num2;
+                num2 = tmp;
+            }
+            return new BigInt(absSubtract(num1, num2), num1.isNegative);
+        }
+        StringBuilder newStr = new StringBuilder();
+        int n1 = num1.str.length(), n2 = num2.str.length(), carry = 0;
+        for(int i = 1; i <= n1 || i <= n2; i++) {
+            int cur = (i <= n1 ? num1.str.charAt(n1 - i) - '0' : 0) + (i <= n2 ? num2.str.charAt(n2 - i) - '0' : 0) + carry;
+            carry = cur / 10;
+            newStr.append(cur % 10);
+        }
+        return new BigInt(newStr.toString(), num1.isNegative);
+    }
+    public static BigInt substract(BigInt num1, BigInt num2) {
+        num2.isNegative = !num2.isNegative;
+        BigInt res = add(num1, num2);
+        num2.isNegative = !num2.isNegative;
+        return res;
+    }
+    public static BigInt multiple(BigInt num1, BigInt num2) {
+        if(num1.str.equals("0") || num2.str.equals("0")) return new BigInt("0");
+        int n1 = num1.str.length(), n2 = num2.str.length();
+        int[] digits = new int[n1 + n2];
+        for(int i = n1 - 1; i >= 0; i--) {
+            for(int j = n2 - 1; j >= 0; j--) {
+                digits[i + j + 1] += (num1.str.charAt(i) - '0') * (num2.str.charAt(j) - '0');
+                digits[i + j] += (digits[i + j + 1] / 10);
+                digits[i + j + 1] %= 10;
+            }
+        }
+        StringBuilder res = new StringBuilder();
+        for(int digit : digits) {
+            if(res.length() != 0 || digit != 0) res.append(digit);
+        }
+        return new BigInt(res.toString(), num1.isNegative ^ num2.isNegative);
+    }
+    
+    private static String absSubtract(BigInt num1, BigInt num2) {
+        // here num1 is larger
+        StringBuilder newStr = new StringBuilder();
+        int n1 = num1.str.length(), n2 = num2.str.length(), carry = 0;
+        for(int i = 1; i <= n1 || i <= n2; i++) {
+            int cur = (i <= n1 ? num1.str.charAt(n1 - i) - '0' : 0) - (i <= n2 ? num2.str.charAt(n2 - i) - '0' : 0) + carry;
+            carry = cur < 0 ? -1 : 0;
+            newStr.append((10 + cur) % 10);
+        }
+        while(newStr.length() > 1 && newStr.charAt(newStr.length() - 1) == '0') {   // remove leading zeros
+            newStr.deleteCharAt(newStr.length() - 1);
+        }
+        return newStr.reverse().toString();
+    }
+    private static int absCompare(BigInt num1, BigInt num2) {
+        if(num1.str.length() != num2.str.length()) {
+            return Integer.compare(num1.str.length(), num2.str.length());
+        }
+        return num1.str.compareTo(num2.str);
+    }
+
+    public static void main(String[] args) {
+        BigInt b1 = new BigInt("12"), b2 = new BigInt("1"), b3 = new BigInt("-5"), b4 = new BigInt("-3");
+        BigInt res = multiple(b1,b2);
+        System.out.print(res.str + ", isNegative: " + res.isNegative);
+    }
+}

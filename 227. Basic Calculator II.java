@@ -26,7 +26,8 @@ public class Solution {
             
         sign:   1: +
                 -1: -
-    
+				
+		O(n) time O(1) space
     */
     public int calculate(String s) {
         int preNum = 0, curNum = 0, nextNum = 0, sign = 1, op = 0;
@@ -53,53 +54,17 @@ public class Solution {
     }
 }
 
-
 /*
-	Basically we only consider two numbers:
+	Follow up:
 	
-	preNum  preOperator  curNum  (1 + 2)
-	
-	where preOperator can only be + or -
-	
-	When we meet * or -, we can directly curNum * or / next number.
-	So I store curNum to pendingNum in case of * or -, and store
-	this operator to pendingOperator.
-	
-	Next time when we load finish reading next number (meet a new operator
-	or reach the end of string), we just calculate pendingNum * or / curNum,
-	where curNum actually is the next number we want.
-	
-	So pendingOperator can only be * or /.
-	
-	Time O(n) Space O(1)
+	What if we can add one pair of parenthesis, return the maximum value we can get.
 */
-public class Solution {
-    public int calculate(String s) {
-        int curNum = 0, preNum = 0, pendingNum = 0;;
-        char operator = '+';
-        boolean tdPending = false;
-        for(int i = 0; i < s.length(); i++) {
-            char c = s.charAt(i);
-            if(c >= '0' && c <= '9') curNum = curNum * 10 + (c - '0');
-            if(("+-*/".indexOf(c) >= 0 || i == s.length() - 1) && tdPending) {
-                if(pendingOperator == '*') curNum = pendingNum * curNum;
-                else curNum = pendingNum / curNum;
-                tdPending = false;
-                pendingNum = 0;
-            }
-            if(i == s.length() - 1 || c == '+' || c == '-') {
-                if(preOperator == '+') preNum += curNum;
-                else preNum -= curNum;
-                curNum = 0;
-                preOperator = c;
-            }
-            else if(c == '*' || c == '/') {
-                tdPending = true;
-                pendingNum = curNum;
-                pendingOperator = c;
-                curNum = 0;
-            }
-        }
-        return preNum;
-    }
-}
+/*
+	A brute force way: 
+		two for loop to choose every possible parenthesis places, then calculate three parts of 
+		substrings.
+		O(n^3) time
+		
+	Hint: Can use memo to reduce repeated calculations, and sort.
+	"1+2+3" / "2+1+3" ->  "++123"
+*/

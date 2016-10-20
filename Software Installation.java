@@ -35,3 +35,29 @@ private static boolean dfs(HashMap<String, List<String>> children, String cur, H
 	result.addFirst(cur);  // append to head each time
 	return false;
 }
+
+/*
+	Follow up: How to solve it, if graph is very large.
+	
+	Use distributed algorithm.
+	
+	http://stackoverflow.com/questions/18314250/optimized-algorithm-to-schedule-tasks-with-dependency
+	http://cs.stackexchange.com/questions/2524/getting-parallel-items-in-dependency-resolution/2525#2525
+	
+	instead of appending, merge all items of the same "depth" to one set. You get a list of sets, each of which contains items you can execute/install in parallel. 
+	
+	for i=0 to k
+	  parallel foreach T in S_k
+		execute T
+		
+	parallel foreach T in S_0
+		recursive_execute T
+		
+	where,
+	recursive_execute T {
+	  atomic { if T.count++ < T.indeg then return }
+	  execute T
+	  parallel foreach T' in T.succ
+		recursive_execute T'
+}
+*/

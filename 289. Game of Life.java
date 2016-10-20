@@ -24,8 +24,11 @@ In this question, we represent the board using a 2D array. In principle, the boa
 		0    1
 		1    1 
 		0    0
+	
+	Note that: if input if boolean[][], then we cannot do it in place.
 */
 public class Solution {
+	static final int[][] dirs = new int[][]{{1,0},{0,1},{1,1},{-1,0},{0,-1},{-1,-1},{1,-1},{-1,1}};
     public static void gameOfLife(int[][] board) {
         for(int i = 0; i < board.length; i++) {
             for(int j = 0; j < board[0].length; j++) {
@@ -42,12 +45,18 @@ public class Solution {
     }
     private static int getNumLiving(int[][] board, int x, int y) {
         int count = 0;
-        for(int i = Math.max(0, x - 1); i <= Math.min(x + 1, board.length - 1); i++) {
-            for(int j = Math.max(0, y - 1); j <= Math.min(y + 1, board[0].length - 1); j++) {
-                count += board[i][j] & 1;
-            }
-        }
-        count -= board[x][y] & 1;
+		for(int[] dir : dirs) {
+			if(x + dir[0] >= 0 && x + dir[0] < board.length && y + dir[1] >= 0 && y + dir[1] < board[0].length) {
+				count += board[x + dir[0]][y + dir[1]] & 1;
+			}
+		}
         return count;
     }
 }
+
+/*
+	Follow up: What if the board is very large, how to handle it?
+	
+	Can only store those coordinate has life in a list.
+	
+*/

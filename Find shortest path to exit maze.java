@@ -24,6 +24,7 @@ public class Solution {
         int n = matrix.length, m = matrix[0].length;
         final int ROAD = 1, WALL = 0, VISITED = 2;
         final int[][] dirs = new int[][]{{1, 0}, {0, 1}, {-1, 0}, {0, -1}};
+		Coordinate[][] backtrace = new Coordinate[n][m];
         Deque<Coordinate> queue = new ArrayDeque<>();
         int len = 1;
         for(int i = 0; i < n; i++) {
@@ -32,19 +33,29 @@ public class Solution {
                 matrix[i][0] = VISITED;
             }
         }
+		LinkedList<Coordinate> path = new LinkedList<>();
         while(!queue.isEmpty()) {
             int size = queue.size();
             while(size-- > 0) {
                 Coordinate cur = queue.poll();
-                if(cur.y == m - 1) return len; // reach destination
+                if(cur.y == m - 1) {  // reach destination
+					path.add(0, cur);
+					while(cur.y != 0) {
+						cur = backtrace[cur.x][cur.y];
+						path.add(0, cur);
+					}
+					return path.size();
+					//return len; 
+				}
                 for(int[] dir : dirs) {
                     int x = cur.x + dir[0], y = cur.y + dir[1];
                     if(x < 0 || x >= n || y < 0 || y >= m || matrix[x][y] != ROAD) continue;
                     queue.offer(new Coordinate(x, y));
                     matrix[x][y] = VISITED;
+					backtrace[x][y] = cur;
                 }
             }
-            len++;
+            //len++;
         }
         return -1;
     }

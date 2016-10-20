@@ -22,7 +22,9 @@
 
 /*
 	Using backtracking to generate all matrices.
-	Using BitSet to store in HashSet.
+	Two ways to memo: 
+		1. Using BitSet to store in HashSet. (Suitable when n is small)
+		2. Only record set index as List, and store in HashSet. (Suitable when m is small)
 	
 	Note that symmetric case should be output as well.
 

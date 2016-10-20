@@ -40,8 +40,12 @@ public class Solution {
             }
             pq.offer(firstRoom);
         }
-        int roomIndex = 1;
-        for(List<Interval> room : pq) {
+        return new ArrayList<>(pq);
+    }
+    public static void main(String[] args) {
+        List<List<Interval>> res = schedule(new Interval[]{new Interval(0,2), new Interval(2,4), new Interval(1,3), new Interval(3,4)});
+		int roomIndex = 1;
+        for(List<Interval> room : res) {
             System.out.print("Room" + roomIndex + ": ");
             for(Interval meeting : room) {
                 System.out.print("[" + meeting.start + "," + meeting.end + "]");
@@ -49,9 +53,5 @@ public class Solution {
             System.out.println();
             roomIndex++;
         }
-        return new ArrayList<>(pq);
-    }
-    public static void main(String[] args) {
-        schedule(new Interval[]{new Interval(0,2), new Interval(2,4), new Interval(1,3), new Interval(3,4)});
     }
 }

@@ -43,6 +43,22 @@ public class Solution {
 		
 		Note that we must start from the last element, because the largest value is n - 1.
 		
+		Time Complexity:
+		
+		To calculate the Time Complexity the shape of the cycle doesn't matter. It can have a long tail, and a loop towards the end or just a loop from the beginning to the end without a tail. Irrespective of the shape of the cycle, one thing is clear - that the Tortoise can never catch up with the Hare. If the two has to meet, the Hare has to catch up with the Tortoise from behind.
+
+		With that established, consider the two possibilities
+		Hare is one step behind Tortoise
+		Hare is two step behind Tortoise
+		All greater distances will reduce to One or Two. Let us assume always Tortoise moves first  (it could be even other way).
+
+		In the first case were the distance between Hare and Tortoise is one step. Tortoise moves one step forward and the distance between Hare and Tortoise becomes 2. Now Hare moves 2 steps forward meeting up with Tortoise.
+
+		In the second case were the distance between Hare and Tortoise is two steps. Tortoise moves one step forward and the distance between Hare and Tortoise becomes 3. Now Hare moved 2 steps forward which makes the distance between Hare and Tortoise as 1. It is similar to first case which we already proved that both Hare and Tortoise will meet up in next step.
+
+		Let the length of the loop be 'n' and there are 'p' variables before the loop. Hare traverses the loop twice in 'n' moves, they are guaranteed to meet in O(n).
+
+			
 		Time O(n) Space O(1)
 	*/
 	public int findDuplicate(int[] nums) {
