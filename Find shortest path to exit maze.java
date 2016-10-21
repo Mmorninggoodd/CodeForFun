@@ -2,6 +2,7 @@
 
 	Given a maze, any point on the left is entrance, any point on the right is exit.
 	Find shortest path.
+	ROAD = 1, WALL = 0
 
 */
 

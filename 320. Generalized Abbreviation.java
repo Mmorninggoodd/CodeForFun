@@ -9,14 +9,28 @@ Given word = "word", return the following list (order does not matter):
 
 */
 
-public List<String> generateAbbreviations(String word){
+/*
+	Backtracking.
+	Each time we can insert current char or not.
+		If we insert, then we need to insert count first;
+		If not, then we increase count.
+	There are 2^n possible solutions.
+*/
+public static List<String> generateAbbreviations(String word){
 	List<String> res = new ArrayList<>();
-	for(int len = 1; len <= word.length(); len++) {
-		for(int start = 0; start + len <= word.length(); start++) {
-			int end = start + len; // exclusive
-			res.add((start == 0 ? "" : word.substring(0, start)) + len + (end == word.length() ? "" : word.substring(end)));
-		}
-	}
-	res.add(word);
+	generateAbbreviations(word, res, 0, new StringBuilder(), 0);
 	return res;
+}
+private static void generateAbbreviations(String word, List<String> res, int count, StringBuilder sb, int index){
+	int oldLen = sb.length();
+	if(index == word.length()) {
+		if(count > 0) sb.append(count);
+		res.add(sb.toString());
+	}
+	else {
+		generateAbbreviations(word, res, count + 1, sb, index + 1);  // not insert current char
+		if(count > 0) sb.append(count);
+		generateAbbreviations(word, res, 0, sb.append(word.charAt(index)), index + 1); // insert
+	}
+	sb.setLength(oldLen);
 }

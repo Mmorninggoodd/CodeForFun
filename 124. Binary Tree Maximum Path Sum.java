@@ -28,20 +28,19 @@ public class Solution {
 		DFS
 		O(n) time O(depth) space
 	*/
-    int max;
     public int maxPathSum(TreeNode root) {
-        max = Integer.MIN_VALUE;
-        maxPathDown(root);
-        return max;
+		int[] max = new int[]{Integer.MIN_VALUE};
+        maxPathDown(root, max);
+        return max[0];
     }
 	/*
 		Return max down path sum starting from current node
 	*/
-    private int maxPathDown(TreeNode root) {
+    private int maxPathDown(TreeNode root, int[] max) {
         if(root == null) return 0;
-        int left = Math.max(0, maxPathDown(root.left));
-        int right = Math.max(0, maxPathDown(root.right));
-        if(max < left + right + root.val) max = left + right + root.val;
+        int left = Math.max(0, maxPathDown(root.left, max));
+        int right = Math.max(0, maxPathDown(root.right, max));
+        max[0] = Math.max(max[0], left + right + root.val);
         return Math.max(left, right) + root.val;
     }
 }

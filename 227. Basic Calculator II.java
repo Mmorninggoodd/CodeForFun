@@ -65,6 +65,9 @@ public class Solution {
 		substrings.
 		O(n^3) time
 		
+	Another way is calculate every possible substring's value, then calculate all possible results in O(n^2),
+	but need O(n^2) space.
+	
 	Hint: Can use memo to reduce repeated calculations, and sort.
 	"1+2+3" / "2+1+3" ->  "++123"
 */

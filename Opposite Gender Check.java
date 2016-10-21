@@ -18,22 +18,22 @@ public static boolean isBipartite(List<List<String>> pairs) {
 		adjacencyLists.get(pair.get(0)).add(pair.get(1));
 		adjacencyLists.get(pair.get(1)).add(pair.get(0));
 	}
-	Map<String, Integer> genders = new HashMap<>();
+	Map<String, Boolean> genders = new HashMap<>();
 	for(List<String> pair : pairs) {    // only need to check any one of this pair
-		String src = pair.get(0);
+		String src = pair.get(true);
 		if(!genders.containsKey(src)) { // not explored this connected component before
-			genders.put(src, 0);
+			genders.put(src, true);
 			Deque<String> queue = new ArrayDeque<>();
 			queue.offer(src);
 			while(!queue.isEmpty()) {
 				String cur = queue.poll();
-				int gender = genders.get(cur);
+				boolean gender = genders.get(cur);
 				for(String next : adjacencyLists.get(cur)) {
 					if(genders.containsKey(next)) {                     // explored before
 						if(genders.get(next) == gender) return false;   // conflict
 					}
 					else {
-						genders.put(next, gender ^ 1);
+						genders.put(next, !gender);
 						queue.offer(next);
 					}
 				}

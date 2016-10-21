@@ -1,7 +1,7 @@
 /*
 	Design a class UndirectedUnweightedGraph,
 	and implement:
-		addEdge(), hasEdge(), numberOfEdges()
+		addEdge(), hasEdge(), numberOfEdges(), equals( another graph);
 
 	Follow up: Write serialize() and deserialize()
 */
@@ -40,6 +40,16 @@ class UndirectedUnweightedGraph {
 	}
 	int numberOfEdges() {
 		return totalEdges;
+	}
+	boolean equals(Object other) {
+		if(!(other instanceOf UndirectedUnweightedGraph)) return false;
+		if(this.totalEdges != ((UndirectedUnweightedGraph) other).totalEdges) return false;
+		for(Map.Entry<Integer, HashSet<Integer>> entry : ((UndirectedUnweightedGraph) other).edges.entrySet()) {
+			if(!this.edges.containsKey(entry.getKey()) || !this.edges.get(entry.getKey).equals(entry.getValue())) {
+				return false;
+			}
+		}
+		return true;
 	}
 	static String serialize(UndirectedUnweightedGraph graph) {
         StringBuilder sb = new StringBuilder();

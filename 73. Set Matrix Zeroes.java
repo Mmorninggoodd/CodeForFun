@@ -15,9 +15,9 @@ Could you devise a constant space solution?
 
 public class Solution {
 	/* 2ms 
-		Use first row and column to record which row or column needed to be set to zeroes.
-		Use two boolean variables to record if the first row or column needed to be set to zeroes.
-		Avoid changing matrix[0][0] during flaging.
+		Use first row and column to record which row or column needed to be set to zeros.
+		Use two boolean variables to record if the first row or column needed to be set to zeros.
+		Avoid changing matrix[0][0] during flagging.
 	
 	*/
     public void setZeroes(int[][] matrix) {
