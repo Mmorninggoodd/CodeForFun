@@ -64,7 +64,7 @@ public class Solution {
             if (end != s.length() && invalid[end]) continue;    // check if s[end:] is unbreakable
             String word = s.substring(start, end);
             if (wordDict.contains(word)) {
-                sb.append(" "); sb.append(word);
+                sb.append(" ").append(word);
                 breakable |= wordBreak(s, wordDict, sb, end, invalid, res);
                 sb.setLength(sbLen);
             }
@@ -72,4 +72,9 @@ public class Solution {
         invalid[start] = !breakable;
         return breakable;
     }
+	
+	/*
+		Can also be solved by Trie when dictionary is large,
+		or query will be called a lot times.
+	*/
 }

@@ -37,12 +37,12 @@ public class QuadTree {
         }
 		// parent node
         curNode.children = new QuadNode[4];
-        curNode.children[0] = buildTree(image, x, y, width / 2, height / 2);  // NE
-        curNode.children[1] = buildTree(image, x + width / 2, y, (width + 1) / 2, height / 2);  //NW
-        curNode.children[2] = buildTree(image, x + width / 2, y + height / 2, (width + 1) / 2, (height + 1) / 2);  //SE
-        curNode.children[3] = buildTree(image, x, y + height / 2, width / 2, (height + 1) / 2);   //SW
+		QuadNode[] child = curNode.children;
+        child[0] = buildTree(image, x, y, width / 2, height / 2);  // NE
+        child[1] = buildTree(image, x + width / 2, y, (width + 1) / 2, height / 2);  //NW
+        child[2] = buildTree(image, x + width / 2, y + height / 2, (width + 1) / 2, (height + 1) / 2);  //SE
+        child[3] = buildTree(image, x, y + height / 2, width / 2, (height + 1) / 2);   //SW
         curNode.isLeaf = false;
-        QuadNode[] child = curNode.children;
         if(child[0].color == WHITE && child[1].color == WHITE && child[2].color == WHITE && child[3].color == WHITE) {
             curNode.color = WHITE;
         }

@@ -73,9 +73,9 @@ public int minTotalDistance(int[][] grid) {
 	Then subtract to totalDist when current count <= floor(numPerson / 2)
 		 add to totalDist when curCount > ceiling(numPerson / 2)
 		 
-	Just image:
-	1-5: we only need 1,2,4,5
-	1-4: we need 1,2,3,4
+	 Just image:
+	 1-5: we only need 1,2,4,5
+	 1-4: we need 1,2,3,4
 */
 public static int minTotalDistance(int[][] grid) {
 	int numPerson = 0, totalDist = 0;

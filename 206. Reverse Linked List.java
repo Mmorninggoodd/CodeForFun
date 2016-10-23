@@ -54,3 +54,10 @@ public class Solution {
         return newHead == null ? head : newHead;
     }
 }
+
+/*
+	Follow up: What if linked list contains cycle.
+	
+	Then you will reach head of linked list again, and the cycle part was reversed, the rest part is unchanged.
+	
+*/

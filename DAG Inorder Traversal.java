@@ -39,7 +39,7 @@ private static int inorder(Node root, int k, HashMap<Node, Integer> counts, Node
 		return -1;
 	}
 	Integer count  = counts.get(root);
-	if(count != null && count < k) return counts.get(root);  // visited before (but if target is in current path, then just keep going)
+	if(count != null && count < k) return count;  // visited before (but if target is in current path, then just keep going)
 	count = 1;
 	for(Node next : root.children) {
 		int childCount = inorder(next, k - count, counts, res);

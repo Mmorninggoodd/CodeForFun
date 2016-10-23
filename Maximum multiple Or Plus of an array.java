@@ -40,7 +40,7 @@ public static int maxMultipleOrPlus(int[] array) {
 	
 	Filling from right to left (and bottom up)
 	
-	Time O(n^2) Space O(n^2)
+	Time O(n^3) Space O(n^2)
 */
 public static double maxMultipleOrPlus2(double[] array) {
 	if(array == null || array.length == 0) return 0;
