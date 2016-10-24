@@ -29,4 +29,22 @@ public class Solution {
         }
         return sb.toString();
     }
+	
+	/*
+		Reverse Math method.
+		We can find that the ith char will be put on the min(i % d, abs(6 - i) % 6)th row.
+		where d = numRows * 2 - 2.
+	*/
+	public String convert(String s, int numRows) {
+        if(numRows <= 1) return s;
+        StringBuilder[] rows = new StringBuilder[numRows];
+        for(int i = 0; i < numRows; i++) rows[i] = new StringBuilder();
+        int divisor = numRows * 2 - 2;
+        for(int i = 0; i < s.length(); i++) {
+            rows[Math.min(i % divisor, (divisor - (i % divisor)) % divisor)].append(s.charAt(i));
+        }
+        StringBuilder res = new StringBuilder();
+        for(StringBuilder row : rows) res.append(row);
+        return res.toString();
+    }
 }

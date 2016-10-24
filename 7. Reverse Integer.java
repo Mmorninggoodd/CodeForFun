@@ -36,4 +36,19 @@ public class Solution {
         res = res * sign;
         return res == (int) res ? (int) res : 0;  // detect whether overflow
     }
+	
+	/*
+		A better way to detect overflow.
+		Detect it on the fly.
+	*/
+	public int reverse(int x) {
+        int res = 0;
+        while(x != 0) {
+            int tmp = res;
+            res = res * 10 + (x % 10);
+            if(res / 10 != tmp) return 0;  // try to reverse the process, if fail then overflowed 
+            x /= 10;
+        }
+        return res;
+    }
 }

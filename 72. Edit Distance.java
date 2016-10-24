@@ -12,8 +12,8 @@ c) Replace a character
 */
 
 public class Solution {
-	/* 10ms 94%
-		O(m*n) time O(m) space DP
+	/* 7ms 99%
+		O(m*n) time O(min(m,n)) space DP
 		
         dp[i,j] : min distance between first i chars of word1 and first j chars of word2
                 Note that dp[0,j] means none of word1's chars and j word2's chars
@@ -29,9 +29,10 @@ public class Solution {
     */
     public int minDistance(String word1, String word2) {
         int n = word1.length(), m = word2.length();
+		if(m > n) return minDistance(word2, word1);
         int[] dp = new int[m + 1];
         for(int i = 0; i <= n; i++) {
-            int pre = i - 1; // store dp[i-1, j-1]
+            int pre = dp[0]; // store dp[i-1, j-1]
             dp[0] = i;
             for(int j = 1; j <= m; j++) {
                 int tmp = dp[j];

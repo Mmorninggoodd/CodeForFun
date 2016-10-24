@@ -40,7 +40,8 @@ public class Solution {
         if(n > m) return findMedianSortedArrays(nums2, nums1);
         // make sure num1 is the shorter one so that j = (n + m + 1) /2 - i won't be negative
         
-        for(int i_min = 0, i_max = n, half_len = (n + m + 1) /2; i_min <= i_max;) {
+		int i_min = 0, i_max = n, half_len = (n + m + 1) /2;
+        while(i_min <= i_max) {
             int i = (i_min + i_max) / 2;
             int j = half_len - i;
             if(i > 0 && j < m && nums1[i - 1] > nums2[j]) i_max = i - 1;  // Check condition (2.a)

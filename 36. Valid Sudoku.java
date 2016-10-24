@@ -61,7 +61,7 @@ public class Solution {
 		for (int i = 0; i < 9; i++) {
 			for (int j = 0; j < 9; j++) {
 				if (board[i][j] != '.') {
-					int idx = board[i][j] - '1' ;
+					int idx = board[i][j] - '1' ;  // to avoid out of boundary
 					if (hset[i][idx] || vset[j][idx] || bckt[(i / 3) * 3 + j / 3][idx]) return false;
 					hset[i][idx] = true;
 					vset[j][idx] = true;

@@ -33,20 +33,19 @@ public class Solution {
 }
 
 /*
-	Similar Solution, but using an array to store index of char
-	Faster, but we need to know the range of character
+	Maximum Sliding Window
+	
+	O(n) time O(1) space
 */
-public class Solution {
-    public int lengthOfLongestSubstring(String s) {
-        int maxLength = 0, lastIndex = -1;
-        int[] loc = new int[256]; // ASCII, in order to avoid initialization of -1, loc starts from 1
-		// Arrays.fill(loc, -1);
-        for(int i = 0; i < s.length(); i++){
-            char c = s.charAt(i);
-            lastIndex = Math.max(loc[(int) c] - 1, lastIndex);
-            maxLength = Math.max(maxLength, i - lastIndex);
-            loc[(int) c] = i + 1;
-        }
-        return maxLength;
-    }
+public int lengthOfLongestSubstring(String s) {
+	int[] counts = new int[256];  // counts of each letter in current window
+	int left = 0, maxLen = 0;
+	for(int i = 0; i < s.length(); i++) {
+		counts[s.charAt(i)]++;
+		while(counts[s.charAt(i)] > 1) {  // contains more than one occurrence, then move left bound until valid
+			counts[s.charAt(left++)]--;
+		}
+		maxLen = Math.max(maxLen, i - left + 1);
+	}
+	return maxLen;
 }
