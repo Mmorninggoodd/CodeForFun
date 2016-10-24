@@ -123,3 +123,50 @@ public class Solution {
         return count;
     }
 }
+
+/*
+	How to generate prime number in O(1) space
+*/
+public static boolean isPrime(long n) {
+	if(n < 2) return false;
+	if(n == 2 || n == 3) return true;
+	if(n % 2 == 0 || n % 3 == 0) return false;
+	long sqrtN = (long) Math.sqrt(n) + 1;
+	for(int i = 6; i <= sqrtN; i += 6) {
+		if(n % (i - 1) == 0 || n % (i + 1) == 0) return true;
+	}
+	return false;
+}
+/*
+	Follow up: Write a prime number iterator.
+	A efficient way is to store some prime numbers we already found.
+*/
+class PrimeIterator {
+	List<Integer> primes;
+	int current;
+	PrimeIterator() {
+		primes = new ArrayList<>();
+		primes.add(2);
+		primes.add(3);
+		current = 1;
+	}
+	int next() {
+		current++;
+		if(current < 4) {
+			return current;
+		}
+		if(current % 2 == 0) current++;
+		while(true) {
+			for(int prime : primes) {
+				if(current % prime == 0) {
+					current += 2;
+					break;
+				}
+				if(prime * prime >= current) {
+					primes.add(current);
+					return current;
+				}
+			}
+		}
+	}
+}

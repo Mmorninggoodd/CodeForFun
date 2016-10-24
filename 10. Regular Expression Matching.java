@@ -23,35 +23,31 @@ isMatch("aab", "c*a*b") → true
 
 public class Solution {
 	/*
-		A space-saver DP method.
-		dp[m,n] : true if first m chars of s (s[-1:m-1]) can be matched by pattern p[0:n]
-		space O(n) time O(m*n)
-	*/
-	public boolean isMatch(String s, String p) {
-        int m = s.length(), n = p.length();
-        if(m == 0 && n == 0) return true;
-        if(n == 0) return false;
-        boolean[] dp1 = new boolean[n];
-        boolean[] dp2 = new boolean[n];
-        for(int j = 1; j < n && p.charAt(j) == '*'; j += 2) dp2[j] = true;
-        for(int i = 0; i < m; i++) {
-            for(int j = 0; j < n; j++) {
-                if(p.charAt(j) == '*' && 
-                        ((j-2 >= 0 && dp1[j-2]) || 
-                            (dp2[j] && isEqual(s.charAt(i), p.charAt(j-1)))))
-                        dp1[j] = true;
-                else if(((j == 0 && i == 0) || (j > 0 && dp2[j-1])) && isEqual(s.charAt(i), p.charAt(j)))
-                    dp1[j] = true;
-                else
-                    dp1[j] = false; // to overwrite old value
+        match[i,j] = true when first i chars of s can be matched by first j chars of p
+        
+        if p[j - 1] == '*': match[i, j] = match[i, j - 2] (not using x* at all) || (match[i - 1, j] && s[i - 1] == p[j - 2]) (used * to match)
+        else: match[i, j] = match[i - 1, j - 1] && (s[i - 1] == p[j - 1] || p[j - 1] == '.')
+        
+        Boundary:
+            match[0,0] = true
+			match[0,j] = true when match[0,j-2] && p[j-1] == '*'
+    */
+    public static boolean isMatch(String s, String p) {
+        int n = s.length(), m = p.length();
+        boolean[] match = new boolean[m + 1];
+        match[0] = true;
+        for(int j = 1; j < m && p.charAt(j) == '*'; j += 2) match[j + 1] = true;
+        for(int i = 1; i <= n; i++) {
+            boolean pre = match[0];
+            match[0] = false;   // update match[i,0] = false when i > 0
+            for(int j = 1; j <= m; j++) {
+                boolean tmp = match[j];   // match[i-1,j-1]
+                if(p.charAt(j-1) == '*') match[j] = match[j-2] || (match[j] && (s.charAt(i-1) == p.charAt(j-2) || p.charAt(j-2) == '.'));
+                else match[j] = pre && (s.charAt(i-1) == p.charAt(j-1) || p.charAt(j-1) == '.');
+                pre = tmp;
             }
-			// switch two rows
-            boolean[] tmp = dp1;
-            dp1 = dp2;
-            dp2 = tmp;
-			// To here, d2 is the newest dp row
         }
-        return dp2[n-1];
+        return match[m];
     }
 	
 	/*

@@ -48,6 +48,7 @@ public static String alienOrder(String[] words) {
 			if(c1 != c2) {
 				if(edges.get(c1).add(c2)) {  // add c1 -> c2 edge
 					degrees.put(c2, degrees.get(c2) + 1);
+					break;
 				}
 			}
 		}

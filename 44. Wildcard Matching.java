@@ -21,41 +21,31 @@ isMatch("aab", "c*a*b") → false
 
 public class Solution {
     /*
-		17ms 58%
-		
-        Similar with #10 Regular Expression Matching
-        No true linear complexity solution for this kind of problem.
+        match[i,j] = true if first i char of s can be matched by first j char of p
         
-        Time O(m*n) Space O(n) where n = s.length(), m = p.length()
-        dp[i][j]: true if s[0:i-1] can be matched by p[0:j-1]
-        if p[i-1] == '*' && any(dp[k][j-1]) for k <= i, then dp[i][j] = true 
-        if (p[i-1] == '?' || s[i-1] = p[i-1]) && dp[i-1][j-1], then dp[i][j] = true
+        if p[j-1] == '*', match[i, j] = match[i-1, j] || match[i, j-1] 
+        else, match[i, j] = match[i-1, j-1] && s[i-1] == p[j-1]
         
+        Boundary: match[0,0] = true, match[0, j] = false when j > 0
+                  match[0, j + 1] = match[0, j] && p[j] == '*'
     */
-    public boolean isMatch(String s, String p) {
-		
-		// This part is for speedup
-		int n = s.length(), m = p.length();
-        int count = 0;
-        for(int i = 0; i < m; i++) if(p.charAt(i) == '*') count++;
-        if((count == 0 && m != n) || (m - count > n)) return false;
-		
-		// Below are almost the same as DP solution of #10
-        boolean[] dp = new boolean[n + 1];
-        dp[0] = true;
-        for(int j = 1; j <= m; j++) {
-            boolean flag = false; // any(dp[k][j-1]) for k <= i
-            boolean pre = false; // store dp[i-1][j-1]
-            for(int i = 0; i <= n; i++) {  // note that start from 0
-                boolean cur = dp[i];
-                flag |= dp[i];
-                if(p.charAt(j - 1) == '*' && flag) dp[i] = true;
-                else if(i != 0 && (p.charAt(j - 1) == '?' || p.charAt(j - 1) == s.charAt(i - 1)) && pre) dp[i] = true;
-                else dp[i] = false;
-                pre = cur;
+    public static boolean isMatch(String s, String p) {
+        int n = s.length(), m = p.length();
+        if(m == 0) return n == 0;
+        boolean[] match = new boolean[m + 1];
+        for(int i = 0; i < m && p.charAt(i) == '*'; i++) match[i + 1] = true;
+        match[0] = true;
+        for(int i = 1; i <= n; i++) {
+            boolean pre = match[0];  // pre is match[i-1,j-1]
+            match[0] = false;   // update to match[i,0] = false, when i > 0
+            for(int j = 1; j <= m; j++) {
+                boolean tmp = match[j];
+                if(p.charAt(j-1) == '*') match[j] = match[j] || match[j-1];
+                else match[j] = pre && (p.charAt(j-1) == '?' || p.charAt(j-1) == s.charAt(i-1));
+                pre = tmp;
             }
         }
-        return dp[n];
+        return match[m];
     }
 	
 	/*
