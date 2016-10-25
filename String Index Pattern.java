@@ -52,7 +52,7 @@ public static List<Integer> findPattern(String[] s1, String[] s2) {
 		for(int startIndex = 0; startIndex < s1.length; startIndex++) {  // choose a start point
 			pattern1.add(startIndex);
 			pattern2.add(startIndex);
-			if(findPattern(s1, s2, pattern1, pattern2, 0, 0, depth)) break;
+			if(findPattern(s1, s2, pattern1, pattern2, 0, 0, depth)) return pattern1;
 			pattern1.clear();
 			pattern2.clear();
 		}

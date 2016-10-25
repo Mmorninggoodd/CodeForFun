@@ -65,4 +65,22 @@ public class Solution {
         }
         return neg ? -res : res;
     }
+	
+	/*
+		Use binary search
+	*/
+	public static int divide(int dividend, int divisor) {
+        if(divisor == 0) return Integer.MAX_VALUE;
+        long lDividend = Math.abs((long) dividend), lDivisor = Math.abs((long) divisor);
+        if(lDividend < lDivisor) return 0;
+        long left = 1, right = lDividend;
+        while(left < right) {
+            long mid = (left + right + 1) >>> 1;
+            if(mid * lDivisor > lDividend) right = mid - 1;
+            else left = mid;
+        }
+        left = (((dividend < 0) ^ (divisor < 0)) ? -1 : 1) * left;  // must assign sign first, otherwise the following overflow task cannot detect Integer.MIN_VALUE / -1
+        if( (long) ((int) left) != left) return Integer.MAX_VALUE;
+        return (int) left;
+    }
 }
