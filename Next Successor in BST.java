@@ -15,13 +15,12 @@ Node inOrderSuccessor(Node root, Node n)
     if( n.right != null ) {
 		succ = n;
         while(succ.left != null) succ = succ.left;
+		return succ;
 	}
  
     // Start from root and search for successor down the tree
-    while (root != null)
-    {
-        if (n.val < root.val)
-        {
+    while (root != null) {
+        if (n.val < root.val) {
             succ = root;
             root = root.left;
         }

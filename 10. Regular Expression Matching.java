@@ -76,4 +76,11 @@ public class Solution {
     private boolean isEqual(char s, char p) {
         return (p == '.' || s == p);
     }
+	
+	/*
+		What if now * can only match < 100 times.
+		Only need to change one place:
+		
+		if p[j - 1] == '*': match[i, j] = match[i, j - 2] (not using x* at all) || ((i < 100 || (i >= 100 && !match[i - 1 - 100, j])) && match[i - 1, j] && s[i - 1] == p[j - 2]) (used * to match)
+	*/
 }

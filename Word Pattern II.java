@@ -8,6 +8,16 @@
 	
 	Follow up: If we need to query many times without changing dictionary, how to optimize it?
 */
+/*
+	We can generate a uniform pattern code for each string.
+	
+	cddf -> abbc
+	kkk -> aaa
+	
+	So that strings using same pattern must have same uniform pattern code.
+*/
+
+
 public static boolean wordPatternMatch(String pattern, String str) {
 	String[] map = new String[26]; // mapping of characters 'a' - 'z'
 	HashSet<String> set = new HashSet<>(); // mapped result of 'a' - 'z'

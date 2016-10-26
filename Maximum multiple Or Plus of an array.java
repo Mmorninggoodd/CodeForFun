@@ -107,5 +107,15 @@ public static double maxMultipleOrPlus2(double[] array) {
 /*
 	Follow up: Back trace to get the String expression of maximum.
 
+	Create a Choice class contains operation{* / +} and position(k)
+	Then we create another Choice[][] matrix, and can backtrace to get expression from this.
+	
+	pseudo code:
+	String getExp(i,j) {
+		if(i == j) return nums[i];
+		char op = "*" / "+";  // get from Choice[][]
+		return "(" + getExp(i,k) + ")" + op + "(" + getExp(k+1,j) + ")";
+	}
+	Note that also need to take care of corner cases: i == j
 */
 

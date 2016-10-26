@@ -28,10 +28,8 @@ public class Solution {
         if(divisor == 0|| (dividend == Integer.MIN_VALUE && divisor == -1)) return Integer.MAX_VALUE;
         boolean neg = (dividend < 0) ^ (divisor < 0);
         int res = 0;
-        long ldividend = (long) dividend;
-        long ldivisor = (long) divisor;
-        ldividend = ldividend < 0 ? -ldividend : ldividend;
-        ldivisor = ldivisor < 0 ? -ldivisor : ldivisor;
+        long ldividend = Math.abs((long) dividend);
+        long ldivisor = Math.abs((long) divisor);
         if(ldivisor == 1) return neg? (int) -ldividend : (int)ldividend;
         while(ldividend >= ldivisor){
             int shift = 0;
