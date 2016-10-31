@@ -73,7 +73,7 @@ public boolean canCross(int[] stones) {
 	
 	Note, in order to save memory, we only store dp[i] if i has a stone. (Which can be achieved by using HashMap<Integer, List<Integer>> to store (stone index, jump step lengths) pairs)
 	
-	Time & Space exponential
+	Time & Space O(n^1.5)
 */
 public boolean canCross(int[] stones) {
 	if(stones == null || stones.length == 0) return false;
