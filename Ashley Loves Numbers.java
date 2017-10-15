@@ -28,7 +28,7 @@ public static int findLovelyNumber2(int lower, int higher) {
 public static int findLovelyNumber2(int lower, int higher, int cur, boolean[] usedDigit) {
 	int count = 0;
 	if(cur > higher) return count;
-	if(cur >= lower && cur <= higher) return 1;
+	if(cur >= lower && cur <= higher) count++;
 	for(int digit = 0; digit <= 9; digit++) {
 		if(cur == 0 && digit == 0) continue;
 		if(usedDigit[digit]) continue;
