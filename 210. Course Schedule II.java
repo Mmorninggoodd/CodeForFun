@@ -50,3 +50,57 @@ public class Solution {
         return sequence;
     }
 }
+
+//--yc--
+//dfs:
+class Solution {
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        boolean[] visit = new boolean[numCourses];
+        
+        Set<Integer>[] nextset = new Set[numCourses];
+        for(int[] item:prerequisites){
+            int pre = item[1];
+            int next = item[0];
+            if(nextset[next]==null){
+                nextset[next]=new HashSet<Integer>();
+            }
+            nextset[next].add(pre);
+        }
+        
+        int[] res = new int[numCourses];
+        int[] index = new int[]{0};
+        for(int i=0; i<numCourses; i++){
+            // System.out.println("res"+Arrays.toString(res));
+            if(!scan(i,nextset,visit,new boolean[numCourses], res,  index)){
+                // System.out.println("0le");
+                return new int[0];
+            }
+        }
+        return res;
+    }
+    
+    public boolean scan(int i, Set<Integer>[] nextset, boolean[] visit, boolean[] path, int[] res, int[] index){
+        if(visit[i]){
+            return true;
+        }
+        visit[i] = true;
+        path[i] = true;
+        
+        if(nextset[i] != null){
+            for(int nextItem : nextset[i]){
+                if(path[nextItem]){
+                    return false;
+                }
+                path[nextItem] = true;
+                if(!scan(nextItem, nextset, visit, path,res,index)){
+                    return false;
+                }
+                path[nextItem] = false;
+            }
+        }
+        // path[i] = false;
+        res[index[0]++] = i;
+        // System.out.println("index[0]:"+index[0]);
+        return true;
+    }
+}
