@@ -38,9 +38,9 @@ public class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int n = nums1.length, m = nums2.length;
         if(n > m) return findMedianSortedArrays(nums2, nums1);
-        // make sure num1 is the shorter one so that j = (n + m + 1) /2 - i won't be negative
+        // make sure num1 is the shorter one so that j = (n + m + 1) /2 - i won't be negative  //num1短num2长
         
-		int i_min = 0, i_max = n, half_len = (n + m + 1) /2;
+		int i_min = 0, i_max = n, half_len = (n + m + 1) /2;//左边要分多少个
         while(i_min <= i_max) {
             int i = (i_min + i_max) / 2;
             int j = half_len - i;
